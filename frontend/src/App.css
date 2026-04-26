@@ -68,7 +68,14 @@ body {
   align-items: center;
   gap: 12px;
   margin-bottom: 48px;
-  padding: 0 8px;
+  padding: 0;
+}
+
+.logo-img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: var(--radius-md);
 }
 
 .logo-icon {
@@ -169,8 +176,8 @@ body {
 }
 
 .dot-yellow {
-  background: var(--warning);
-  box-shadow: 0 0 8px var(--warning);
+  background: #ffffff;
+  box-shadow: 0 0 8px #ffffff;
 }
 
 .dot-red {
@@ -311,7 +318,7 @@ body {
 }
 
 .dash-card.glow-yellow::before {
-  background: linear-gradient(90deg, transparent, var(--warning), transparent);
+  background: linear-gradient(90deg, transparent, #ffffff, transparent);
 }
 
 .dash-card.glow-primary::before {
@@ -365,14 +372,19 @@ body {
 }
 
 .text-yellow {
-  color: var(--warning);
+  color: #ffffff;
 }
 
 .text-red {
   color: var(--danger);
 }
 
+.text-white {
+  color: #ffffff;
+}
+
 .text-primary {
+
   color: #a78bfa;
 }
 

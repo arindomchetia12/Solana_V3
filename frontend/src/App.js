@@ -7,9 +7,9 @@ const connection = new Connection("https://api.mainnet-beta.solana.com");
 
 // Token registry
 const TOKENS = {
-  SOL:  { mint: "So11111111111111111111111111111111111111112",  symbol: "SOL",  name: "Solana",    decimals: 9, icon: "◎" },
-  USDC: { mint: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", symbol: "USDC", name: "USD Coin",  decimals: 6, icon: "$" },
-  USDT: { mint: "Es9vMFrzaCERmJfrF4H2FYzV4mWwfvX2gYdExgkt1",     symbol: "USDT", name: "Tether",    decimals: 6, icon: "₮" },
+  SOL: { mint: "So11111111111111111111111111111111111111112", symbol: "SOL", name: "Solana", decimals: 9, icon: "◎" },
+  USDC: { mint: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", symbol: "USDC", name: "USD Coin", decimals: 6, icon: "$" },
+  USDT: { mint: "Es9vMFrzaCERmJfrF4H2FYzV4mWwfvX2gYdExgkt1", symbol: "USDT", name: "Tether", decimals: 6, icon: "₮" },
 };
 
 function App() {
@@ -87,7 +87,7 @@ function App() {
     setLoading(true);
     setSwapResult(null);
     setAiData(null);
-    setStatusMsg("🧠 AI analyzing network & assembling TX...");
+    setStatusMsg("AI analyzing network & assembling...");
 
     try {
       const inToken = TOKENS[inputToken];
@@ -113,14 +113,14 @@ function App() {
 
       const data = await res.json();
       setAiData(data.aiParams);
-      setStatusMsg("✅ Assembly complete. Please sign in Phantom...");
+      setStatusMsg("Assembly complete. Please sign in Phantom...");
 
       // 2. Deserialize & sign
       const txBuf = Buffer.from(data.transaction, "base64");
       const tx = VersionedTransaction.deserialize(txBuf);
       const signedTx = await window.solana.signTransaction(tx);
 
-      setStatusMsg("📡 Broadcasting to Solana Mainnet...");
+      setStatusMsg("Broadcasting to Solana Mainnet...");
 
       // 3. Send
       const txid = await connection.sendRawTransaction(signedTx.serialize(), {
@@ -148,7 +148,7 @@ function App() {
         status: "Confirmed"
       }, ...prev].slice(0, 20));
 
-      setStatusMsg(`✅ Swap Confirmed! TX: ${txid.slice(0,8)}...`);
+      setStatusMsg(`✅ Swap Confirmed! TX: ${txid.slice(0, 8)}...`);
       setTimeout(() => setStatusMsg(""), 6000);
     } catch (err) {
       console.error("Swap error:", err);
@@ -185,8 +185,8 @@ function App() {
       {/* ── Sidebar ── */}
       <aside className="sidebar">
         <div className="sidebar-logo">
-          <div className="logo-icon">◎</div>
-          <span className="logo-text">SolAI</span>
+          <img src="/logo.jpg" alt="ThinkOut Logo" className="logo-img" />
+          <span className="logo-text">ThinkOut</span>
         </div>
 
         <nav className="sidebar-nav">
@@ -250,7 +250,7 @@ function App() {
           <div className="dashboard-layout">
             <div className="dash-card glow-primary">
               <div className="card-header">
-                <div className="card-icon">⚡</div>
+                <div className="card-icon"></div>
                 <h3>Live Network Status</h3>
               </div>
               <div className={`big-status ${getNetworkTextColor(networkData?.networkStatus)}`}>
@@ -258,28 +258,28 @@ function App() {
               </div>
               <p className="dash-sub">Current Solana mainnet health</p>
             </div>
-            
+
             <div className="dash-card">
               <div className="card-header">
-                <div className="card-icon">📊</div>
+                <div className="card-icon"></div>
                 <h3>Transactions / Sec</h3>
               </div>
-              <div className="big-number text-primary">{networkData?.tps || "—"}</div>
+              <div className="big-number text-white">{networkData?.tps || "—"}</div>
               <p className="dash-sub">Real-time throughput metrics</p>
             </div>
-            
+
             <div className="dash-card glow-accent">
               <div className="card-header">
-                <div className="card-icon">🧠</div>
+                <div className="card-icon"></div>
                 <h3>AI Confidence Score</h3>
               </div>
-              <div className="big-number text-green">{networkData ? `${(networkData.confidenceScore * 100).toFixed(0)}%` : "—"}</div>
+              <div className="big-number text-white">{networkData ? `${(networkData.confidenceScore * 100).toFixed(0)}%` : "—"}</div>
               <p className="dash-sub">Probability of successful inclusion</p>
             </div>
-            
+
             <div className="dash-card wide">
               <div className="card-header">
-                <div className="card-icon">⛽</div>
+                <div className="card-icon"></div>
                 <h3>Dynamic Priority Fee</h3>
               </div>
               <div className="big-number text-yellow">{networkData?.priorityFeeLamports || "—"} <small>lamports</small></div>
@@ -295,7 +295,7 @@ function App() {
             <div className="swap-card">
               <div className="swap-card-header">
                 <h2>Swap</h2>
-                <span className="badge-ai">✦ AI Auto-Routed</span>
+                <span className="badge-ai"> AI Auto-Routed</span>
               </div>
 
               {/* From */}
@@ -324,12 +324,12 @@ function App() {
               <div className="swap-input-group">
                 <label>You Receive</label>
                 <div className="swap-input-row">
-                  <input 
-                    type="text" 
-                    className="swap-amount" 
-                    value={swapResult ? (swapResult.outAmount / Math.pow(10, TOKENS[outputToken].decimals)).toFixed(4) : ""} 
-                    readOnly 
-                    placeholder="—" 
+                  <input
+                    type="text"
+                    className="swap-amount"
+                    value={swapResult ? (swapResult.outAmount / Math.pow(10, TOKENS[outputToken].decimals)).toFixed(4) : ""}
+                    readOnly
+                    placeholder="—"
                   />
                   <select className="token-select" value={outputToken} onChange={e => setOutputToken(e.target.value)}>
                     {Object.keys(TOKENS).map(t => <option key={t} value={t}>{TOKENS[t].icon} {t}</option>)}
@@ -342,14 +342,14 @@ function App() {
                 <button className="btn-swap" onClick={connectWallet}>Connect Wallet</button>
               ) : (
                 <button className="btn-swap" onClick={handleSwap} disabled={loading || !amount || inputToken === outputToken}>
-                  {loading ? "⏳ AI Assembling..." : `Swap ${inputToken} to ${outputToken}`}
+                  {loading ? "AI Assembling..." : `Swap ${inputToken} to ${outputToken}`}
                 </button>
               )}
 
               {/* Swap Result */}
               {swapResult && (
                 <div className="swap-result">
-                  <div className="result-row"><span>TX Signature</span><a href={`https://solscan.io/tx/${swapResult.txid}`} target="_blank" rel="noreferrer">{swapResult.txid.slice(0,12)}... ↗</a></div>
+                  <div className="result-row"><span>TX Signature</span><a href={`https://solscan.io/tx/${swapResult.txid}`} target="_blank" rel="noreferrer">{swapResult.txid.slice(0, 12)}... ↗</a></div>
                   <div className="result-row"><span>Price Impact</span><span className="text-green">{swapResult.priceImpact}%</span></div>
                   <div className="result-row"><span>Router</span><span>{swapResult.router}</span></div>
                   <div className="result-row"><span>Est. USD Value</span><span>${Number(swapResult.inUsd).toFixed(2)} → ${Number(swapResult.outUsd).toFixed(2)}</span></div>
@@ -359,7 +359,7 @@ function App() {
 
             {/* AI Insights Panel */}
             <div className="ai-panel">
-              <h3 className="panel-title">🧠 Execution Strategy</h3>
+              <h3 className="panel-title">Execution Strategy</h3>
               {aiData ? (
                 <div className="ai-grid">
                   <div className="ai-stat">
@@ -369,7 +369,7 @@ function App() {
                   </div>
                   <div className="ai-stat">
                     <span className="ai-stat-label">Confidence</span>
-                    <span className="ai-stat-value text-green">{(aiData.confidenceScore * 100).toFixed(0)}%</span>
+                    <span className="ai-stat-value text-white">{(aiData.confidenceScore * 100).toFixed(0)}%</span>
                     <span className="ai-stat-note">Success prob.</span>
                   </div>
                   <div className="ai-stat">
@@ -402,7 +402,7 @@ function App() {
           <div className="history-layout">
             {txHistory.length === 0 ? (
               <div className="empty-state">
-                <div className="empty-icon">📝</div>
+                <div className="empty-icon"></div>
                 <h3>No Recent Transactions</h3>
                 <p style={{ color: "var(--text-muted)", marginTop: "8px" }}>Your AI-routed swap history will appear here.</p>
               </div>
@@ -436,7 +436,7 @@ function App() {
                           {tx.inUsd && <span className="tx-usd">≈ ${Number(tx.inUsd).toFixed(2)}</span>}
                         </td>
                         <td><span className="status-pill confirmed">{tx.status}</span></td>
-                        <td><a href={`https://solscan.io/tx/${tx.id}`} className="tx-link" target="_blank" rel="noreferrer">{tx.id.slice(0,8)}... ↗</a></td>
+                        <td><a href={`https://solscan.io/tx/${tx.id}`} className="tx-link" target="_blank" rel="noreferrer">{tx.id.slice(0, 8)}... ↗</a></td>
                       </tr>
                     ))}
                   </tbody>
