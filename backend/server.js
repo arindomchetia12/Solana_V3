@@ -37,7 +37,7 @@ const server = http.createServer(async (req, res) => {
 
                 console.log(`\n═══ Smart Swap Request ═══`);
                 console.log(`  User: ${userPublicKey}`);
-                console.log(`  ${inputMint?.slice(0,8)}... → ${outputMint?.slice(0,8)}...`);
+                console.log(`  ${inputMint?.slice(0, 8)}... → ${outputMint?.slice(0, 8)}...`);
                 console.log(`  Amount: ${amount}`);
 
                 // 1. AI Predictive Analysis
@@ -120,7 +120,7 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, '0.0.0.0', () => {
-    console.log(`\n🚀 Solana AI Router Backend`);
+    console.log(`\n Solana AI Router Backend`);
     console.log(`   http://127.0.0.1:${PORT}`);
     console.log(`   Endpoints:`);
     console.log(`     POST /api/smart-swap`);
